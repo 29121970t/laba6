@@ -7,6 +7,7 @@
 
 
 
+
 void printArray(double** inputArray, unsigned rowCount, unsigned columnCount) {
     for (size_t i = 0; i < rowCount; i++) {
         printf("| ");
