@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "linux-msvc-x64",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "${default}",
+            "intelliSenseMode": "linux-msvc-x64",
+            "compilerArgs": [
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}

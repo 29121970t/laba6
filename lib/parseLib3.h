@@ -4,14 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*Allocate SIZE bytes of memory and exit programm on error*/
-size_t malloc_s(size_t __size, void** ptr);
+#include "randomLib.h"
 
-/*allocate NMEMB elements of SIZE bytes each, all initialized to 0 and exit programm on error*/
-size_t calloc_s(size_t __nmemb, size_t __size, void** ptr);
 
-/*Re-allocate the previously allocated block in PTR, making the new block SIZE bytes longs and exit programm on error*/
-size_t realloc_s(void** __ptr, size_t __size);
+void handleMallocError();
 
 int isDigit(char c);
 int isValidIntChar(char c);
@@ -40,3 +36,7 @@ size_t parseMultDouble(double** array, char separator, char* inputString, size_t
 size_t readMultDouble(double** array, char separator, size_t * count);
 size_t readMultDoubleWithDialog(double** array, char separator, const char* massege, size_t * count);
 size_t readDoubleWithDialog(double* ptr, char * messege);
+
+
+void fill2DArrayByHand(double** inputArray, unsigned rowCount, unsigned columnCount, int (*validator)(double)) ;
+void fill2DArrayWithRandom(double** inputArray, unsigned rowCount, unsigned columnCount, double from, double to);

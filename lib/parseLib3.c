@@ -2,28 +2,9 @@
 
 enum { ERMALLOC = 1, EROUTOFRANGE, ERTOOLONG, ERINVALIDARG, ERINVALIDUERINPUT, ERUNKNOWN };
 
-/*Allocate SIZE bytes of memory and exit programm on error*/
-size_t malloc_s(size_t __size, void** ptr) {
-    errno = 0;
-    *ptr = malloc(__size);
-    if (*ptr == NULL || errno) return ERMALLOC;
-    return 0;
-}
-
-/*allocate NMEMB elements of SIZE bytes each, all initialized to 0 and exit programm on error*/
-size_t calloc_s(size_t __nmemb, size_t __size, void** ptr) {
-    errno = 0;
-    *ptr = calloc(__nmemb, __size);
-    if (*ptr == NULL || errno) return ERMALLOC;
-    return 0;
-}
-
-/*Re-allocate the previously allocated block in PTR, making the new block SIZE bytes longs and exit programm on error*/
-size_t realloc_s(void** __ptr, size_t __size) {
-    errno = 0;
-    *__ptr = realloc(*__ptr, __size);
-    if (*__ptr == NULL || errno) return ERMALLOC;
-    return 0;
+void handleMallocError() {
+    puts("MALLOC ERROR.");
+    exit(1);
 }
 
 int isDigit(char c) { return c >= '0' && c <= '9' ? 1 : 0; }
@@ -442,4 +423,47 @@ size_t readUDWithDialog(const char* str, int * res) {
     } while (flag);
     *res = answ1[0] == 'Y' || answ1[0] == 'y';
     return 0;
+}
+
+void fill2DArrayByHand(double** inputArray, unsigned rowCount, unsigned columnCount, int (*validator)(double)) {
+    char tmpStr[100] = {0};
+    for (long i = 0; i < rowCount; i++) {
+        int passFlag = 0;
+        do {
+            passFlag = 0;
+            size_t count = 0;
+            sprintf(tmpStr, "Please enter %ld-th row: %u numbers > 0.", i + 1, columnCount);
+            if (readMultDoubleWithDialog(inputArray + i, ',', tmpStr, &count)) handleMallocError();
+
+            for (size_t k = 0; k < count; k++) {
+                if (validator && validator(inputArray[i][k])) {passFlag = 1; break;}
+            }
+
+            if (count != columnCount) {
+                passFlag = 1;
+                puts("Number count mismatch. Check your input and try again.");
+                continue;
+            }
+
+            if (passFlag) puts("Got number <= 0. Check your input and try again.");
+        } while (passFlag);
+    }
+}
+
+void fill2DArrayWithRandom(double** inputArray, unsigned rowCount, unsigned columnCount, double from, double to) {
+    long seed = 0;
+    do {
+        if (readLongWithDialog(&seed, "Please enter seed for random number generation (positive number < LONG_MAX)")) handleMallocError();
+        if (seed <= 0) puts("Seed should be greater then 0. Please try again.");
+    } while (seed <= 0);
+
+    unsigned rand = MrandomUInt(seed);
+    for (long i = 0; i < rowCount; i++) {
+        if ((inputArray[i] = calloc(columnCount, sizeof(long))) == NULL) handleMallocError();
+
+        for (int j = 0; j < columnCount; j++) {
+            rand = MrandomUInt(rand);
+            inputArray[i][j] = map(0, 254803967, from, to, rand);
+        }
+    }
 }

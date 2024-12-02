@@ -1,4 +1,4 @@
-Libs = lib/parseLib3.o lib/randomLib.o
+Libs = lib/parseLib3.o lib/randomLib.o lib/shellSort.o
 execs=$(filter %.c, $(shell ls))
 CC=gcc
 

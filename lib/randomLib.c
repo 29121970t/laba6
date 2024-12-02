@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "arrayLib.h"
+
 
 double map(double fromL, double fromH, double toL, double toH, double value) {
     return (value - fromH) * (toH - toL) / (fromH - fromL) + toH;
