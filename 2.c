@@ -63,4 +63,9 @@ void main(){
 
     puts("Result:");
     printArray(inputArray, rowCount, columnCount);
+
+    for (size_t i = 0; i < columnCount; i++){
+        free(inputArray[i]);
+    }
+    free(inputArray);
 }

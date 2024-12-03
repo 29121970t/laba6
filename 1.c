@@ -24,4 +24,5 @@ void main() {
         printf("%.2lf, ", array[i]);
     }
     printf("\n");
+    free(array);
 }
